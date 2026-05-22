@@ -3,25 +3,30 @@ import numpy as np
 import pickle
 from sklearn.metrics import pairwise_distances
 
-# =========================
-# LOAD MODEL FKNN
-# =========================
-with open("best_model.pkl", "rb") as f:
-    data = pickle.load(f)
+# ==========================================
+# LOAD MODEL
+# ==========================================
+with open(
+    "best_model.pkl",
+    "rb"
+) as f:
 
-k = data["k"]
-m = data["m"]
+    model = pickle.load(f)
 
-classes = data["classes"]
+k = model['k']
+m = model['m']
 
-scaler = data["scaler"]
+classes = model['classes']
 
-X_train = data["X_train"]
-U_train = data["U_train"]
+scaler = model['scaler']
 
-# =========================
-# LABEL CLASS
-# =========================
+X_train = model['X_train']
+
+U_train = model['U_train']
+
+# ==========================================
+# LABEL MAP
+# ==========================================
 label_map = {
     1: "Spruce/Fir",
     2: "Lodgepole Pine",
@@ -32,9 +37,9 @@ label_map = {
     7: "Krummholz"
 }
 
-# =========================
+# ==========================================
 # PAGE
-# =========================
+# ==========================================
 st.set_page_config(
     page_title="Covertype Classifier",
     layout="centered"
@@ -48,9 +53,9 @@ st.write(
     "Masukkan nilai fitur untuk memprediksi jenis hutan"
 )
 
-# =========================
+# ==========================================
 # INPUT
-# =========================
+# ==========================================
 col1, col2 = st.columns(2)
 
 with col1:
@@ -107,32 +112,33 @@ with col2:
         value=0.0
     )
 
-# =========================
-# FKNN PREDICT
-# =========================
-def fknn_predict(x):
+# ==========================================
+# FKNN
+# ==========================================
+def predict_fknn(x):
 
-    x_scaled = scaler.transform(x)
+    x = scaler.transform(x)
 
     dist = pairwise_distances(
-        x_scaled,
+        x,
         X_train,
-        metric="euclidean"
+        metric='euclidean'
     )[0]
 
-    idx = np.argsort(dist)[:k]
+    idx = np.argsort(
+        dist
+    )[:k]
 
-    nearest_dist = dist[idx]
+    dists = dist[idx]
 
-    nearest_u = U_train[idx]
-
-    nearest_dist = np.maximum(
-        nearest_dist,
-        1e-10
+    dists = np.where(
+        dists == 0,
+        1e-10,
+        dists
     )
 
-    weight = 1 / (
-        nearest_dist ** (
+    weights = 1 / (
+        dists ** (
             2/(m-1)
         )
     )
@@ -141,22 +147,17 @@ def fknn_predict(x):
         len(classes)
     )
 
-    for j in range(
-        len(classes)
-    ):
+    for i in range(k):
 
-        atas = np.sum(
-            nearest_u[:, j] *
-            weight
+        membership += (
+            weights[i] *
+            U_train[idx[i]]
         )
 
-        bawah = np.sum(
-            weight
-        )
-
-        membership[j] = (
-            atas / bawah
-        )
+    membership = (
+        membership /
+        np.sum(weights)
+    )
 
     pred = classes[
         np.argmax(
@@ -166,9 +167,9 @@ def fknn_predict(x):
 
     return pred, membership
 
-# =========================
-# PREDICTION
-# =========================
+# ==========================================
+# PREDIKSI
+# ==========================================
 if st.button(
     "🔍 Prediksi"
 ):
@@ -186,7 +187,7 @@ if st.button(
         fire_dist
     ]])
 
-    pred, membership = fknn_predict(
+    pred, membership = predict_fknn(
         input_data
     )
 
@@ -198,17 +199,17 @@ if st.button(
     )
 
     st.success(
-        f"🌲 Hasil Prediksi: {hasil} (Class {pred})"
+        f"Hasil Prediksi: {hasil} (Class {pred})"
     )
 
     st.subheader(
         "Nilai Keanggotaan"
     )
 
-    for i, cls in enumerate(
+    for i, c in enumerate(
         classes
     ):
 
         st.write(
-            f"Class {cls} : {membership[i]:.4f}"
+            f"Class {c}: {membership[i]:.4f}"
         )
