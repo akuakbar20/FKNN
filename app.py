@@ -2,10 +2,12 @@ import streamlit as st
 import numpy as np
 import pickle
 
-# =========================
-# LOAD MODEL (PIPELINE)
-# =========================
-model = pickle.load(open("best_model.pkl", "rb"))
+# LOAD MODEL
+with open("best_model.pkl", "rb") as f:
+    model = pickle.load(f)
+
+st.write(type(model))
+st.write(model)
 
 # =========================
 # LABEL MAP (Covertype)
