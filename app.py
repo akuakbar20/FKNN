@@ -337,20 +337,3 @@ if st.button(
             f"{membership[i]:.6f}"
 
         )
-
-    # ======================================
-    # JUMLAH DATA KELAS
-    # ======================================
-    st.subheader(
-        "📈 Jumlah Data Tiap Kelas"
-    )
-
-    for c in classes:
-
-        st.write(
-
-            f"Class {c} : "
-
-            f"{class_counts[c]}"
-
-        )
