@@ -127,7 +127,8 @@ st.subheader(
 # INPUT
 # ==========================================
 
-col1, col2 = st.columns(2)
+# ---------- BARIS 1 ----------
+col1, col2, col3, col4, col5 = st.columns(5)
 
 with col1:
     elevation = st.number_input(
@@ -141,67 +142,54 @@ with col2:
         value=0.0
     )
 
-# ------------------------------------------
-
-col1, col2 = st.columns(2)
-
-with col1:
+with col3:
     slope = st.number_input(
         "Slope",
         value=0.0
     )
 
-with col2:
+with col4:
     hydro_dist = st.number_input(
-        "Horizontal Distance to Hydrology",
+        "HD Hydrology",
         value=0.0
     )
 
-# ------------------------------------------
-
-col1, col2 = st.columns(2)
-
-with col1:
+with col5:
     vert_hydro = st.number_input(
-        "Vertical Distance to Hydrology",
+        "VD Hydrology",
         value=0.0
     )
 
-with col2:
+# ---------- BARIS 2 ----------
+col6, col7, col8, col9, col10 = st.columns(5)
+
+with col6:
     road_dist = st.number_input(
-        "Horizontal Distance to Roadways",
+        "HD Roadways",
         value=0.0
     )
 
-# ------------------------------------------
-
-col1, col2 = st.columns(2)
-
-with col1:
+with col7:
     hill_9 = st.number_input(
         "Hillshade 9am",
         value=0.0
     )
 
-with col2:
+with col8:
     hill_noon = st.number_input(
         "Hillshade Noon",
         value=0.0
     )
 
-# ------------------------------------------
-
-col1, col2 = st.columns(2)
-
-with col1:
+with col9:
     hill_3 = st.number_input(
         "Hillshade 3pm",
         value=0.0
     )
 
-with col2:
+with col10:
     fire_dist = st.number_input(
-        "Horizontal Distance to Fire Points",
+        "HD Fire Points",
         value=0.0
     )
 
