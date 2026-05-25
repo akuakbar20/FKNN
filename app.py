@@ -126,57 +126,80 @@ st.subheader(
 # ==========================================
 # INPUT
 # ==========================================
+
 col1, col2 = st.columns(2)
 
 with col1:
-
     elevation = st.number_input(
         "Elevation",
         value=0.0
     )
 
+with col2:
     aspect = st.number_input(
         "Aspect",
         value=0.0
     )
 
+# ------------------------------------------
+
+col1, col2 = st.columns(2)
+
+with col1:
     slope = st.number_input(
         "Slope",
         value=0.0
     )
 
+with col2:
     hydro_dist = st.number_input(
         "Horizontal Distance to Hydrology",
         value=0.0
     )
 
+# ------------------------------------------
+
+col1, col2 = st.columns(2)
+
+with col1:
     vert_hydro = st.number_input(
         "Vertical Distance to Hydrology",
         value=0.0
     )
 
 with col2:
-
     road_dist = st.number_input(
         "Horizontal Distance to Roadways",
         value=0.0
     )
 
+# ------------------------------------------
+
+col1, col2 = st.columns(2)
+
+with col1:
     hill_9 = st.number_input(
         "Hillshade 9am",
         value=0.0
     )
 
+with col2:
     hill_noon = st.number_input(
         "Hillshade Noon",
         value=0.0
     )
 
+# ------------------------------------------
+
+col1, col2 = st.columns(2)
+
+with col1:
     hill_3 = st.number_input(
         "Hillshade 3pm",
         value=0.0
     )
 
+with col2:
     fire_dist = st.number_input(
         "Horizontal Distance to Fire Points",
         value=0.0
